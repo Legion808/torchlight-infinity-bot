@@ -1,0 +1,61 @@
+{
+  "general": {
+    "tickRate": 50,
+    "farmMode": "balanced",
+    "enableLogging": true,
+    "logLevel": "info"
+  },
+  "combat": {
+    "engagementRange": 25.0,
+    "retreatHealthPercent": 0.3,
+    "healHealthPercent": 0.5,
+    "combatTactics": "balanced"
+  },
+  "navigation": {
+    "movementSpeed": 1.0,
+    "stuckThreshold": 1.0,
+    "enablePathfinding": true,
+    "explorationRadius": 20.0
+  },
+  "loot": {
+    "lootFilter": "balanced",
+    "minimumRarity": "magic",
+    "minimumLevel": 1,
+    "minimumValue": 100,
+    "enableSeasonalLoot": true
+  },
+  "seasonal": {
+    "enableSeasonalContent": true,
+    "currentSeason": "auto",
+    "prioritizeSeasonalRewards": true
+  },
+  "safety": {
+    "enableAntiDetection": true,
+    "randomDelayMin": 50,
+    "randomDelayMax": 200,
+    "humanizeMovement": true
+  },
+  "performance": {
+    "optimizeMemoryUsage": true,
+    "maxEntityCount": 1000,
+    "updateRadius": 50.0
+  },
+  "keybindings": {
+    "moveKey": 2,
+    "forceMove": 16,
+    "ability1": 112,
+    "ability2": 113,
+    "ability3": 114,
+    "ability4": 115,
+    "ability5": 116,
+    "ability6": 117,
+    "openInventory": 73,
+    "openMap": 77,
+    "usePotion": 82,
+    "teleport": 84,
+    "interact": 69,
+    "emergencyStop": 120,
+    "pauseBot": 121,
+    "quitGame": 115
+  }
+}
