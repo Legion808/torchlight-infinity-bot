@@ -7,6 +7,7 @@
 
 // Forward declarations
 class Memory;
+class OffsetManager;
 
 /**
  * @brief Represents the current state of the game world
@@ -44,6 +45,7 @@ public:
 
 private:
     const Memory* m_memory;
+    std::unique_ptr<OffsetManager> m_offsetManager;
     
     // Game state data
     PlayerData m_player;
@@ -54,20 +56,6 @@ private:
     uintptr_t m_playerBaseAddress = 0;
     uintptr_t m_mapDataAddress = 0;
     uintptr_t m_seasonDataAddress = 0;
-    
-    // Offsets for player data
-    struct PlayerOffsets {
-        uintptr_t position = 0x0;      // X, Y, Z coordinates
-        uintptr_t health = 0x10;       // Current health
-        uintptr_t maxHealth = 0x14;    // Maximum health
-        uintptr_t mana = 0x18;         // Current mana
-        uintptr_t maxMana = 0x1C;      // Maximum mana
-        uintptr_t level = 0x20;        // Character level
-        uintptr_t inCombat = 0x24;     // Combat flag
-        uintptr_t isDead = 0x28;       // Death flag
-        uintptr_t movementSpeed = 0x2C; // Movement speed
-        uintptr_t characterClass = 0x30; // Class ID
-    } m_playerOffsets;
 
 public:
     explicit GameState(const Memory* memory);

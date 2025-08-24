@@ -83,6 +83,8 @@
     <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="OffsetManager.h" />
+    <ClInclude Include="OffsetExamples.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TorchlightBot.cpp" />
@@ -93,6 +95,9 @@
     <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Process.cpp" />
+    <ClCompile Include="OffsetManager.cpp" />
+    <ClCompile Include="offset_demo.cpp" />
     <ClCompile Include="Process.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

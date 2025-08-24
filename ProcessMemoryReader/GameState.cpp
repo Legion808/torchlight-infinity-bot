@@ -1,8 +1,12 @@
 #include "GameState.h"
 #include "Memory.h"
+#include "OffsetManager.h"
 #include <cmath>
 
 GameState::GameState(const Memory* memory) : m_memory(memory) {
+    // Initialize offset manager
+    m_offsetManager = std::make_unique<OffsetManager>(memory);
+    
     // Initialize player data
     m_player = {};
     m_currentMap = {};
@@ -25,26 +29,46 @@ bool GameState::updatePlayerData() {
     }
     
     try {
-        // Read player position
-        auto position = m_memory->readArray<float>(m_playerBaseAddress + m_playerOffsets.position, 3);
+        // === EXAMPLE: Using Dynamic Offset System ===
+        
+        // Method 1: Using OffsetManager (recommended)
+        auto positionAddress = m_offsetManager->calculateAddress(m_playerBaseAddress, "player_position");
+        auto position = m_memory->readArray<float>(positionAddress, 3);
         m_player.x = position[0];
         m_player.y = position[1];
         m_player.z = position[2];
         
-        // Read health data
-        m_player.health = m_memory->read<float>(m_playerBaseAddress + m_playerOffsets.health);
-        m_player.maxHealth = m_memory->read<float>(m_playerBaseAddress + m_playerOffsets.maxHealth);
+        // Method 2: Manual calculation (what you asked about!)
+        // Formula: new_address = base_address + offset
+        uintptr_t healthOffset = m_offsetManager->getOffset("player_health");
+        uintptr_t healthAddress = m_playerBaseAddress + healthOffset;  // <- This is your formula!
+        m_player.health = m_memory->read<float>(healthAddress);
         
-        // Read mana data
-        m_player.mana = m_memory->read<float>(m_playerBaseAddress + m_playerOffsets.mana);
-        m_player.maxMana = m_memory->read<float>(m_playerBaseAddress + m_playerOffsets.maxMana);
+        // Method 3: Direct offset values (old way)
+        m_player.maxHealth = m_memory->read<float>(m_playerBaseAddress + 0x14);
         
-        // Read other data
-        m_player.level = m_memory->read<int>(m_playerBaseAddress + m_playerOffsets.level);
-        m_player.inCombat = m_memory->read<bool>(m_playerBaseAddress + m_playerOffsets.inCombat);
-        m_player.isDead = m_memory->read<bool>(m_playerBaseAddress + m_playerOffsets.isDead);
-        m_player.movementSpeed = m_memory->read<float>(m_playerBaseAddress + m_playerOffsets.movementSpeed);
-        m_player.characterClass = m_memory->read<int>(m_playerBaseAddress + m_playerOffsets.characterClass);
+        // Using OffsetManager for remaining data
+        m_player.mana = m_memory->read<float>(
+            m_offsetManager->calculateAddress(m_playerBaseAddress, "player_mana")
+        );
+        m_player.maxMana = m_memory->read<float>(
+            m_offsetManager->calculateAddress(m_playerBaseAddress, "player_max_mana")
+        );
+        m_player.level = m_memory->read<int>(
+            m_offsetManager->calculateAddress(m_playerBaseAddress, "player_level")
+        );
+        m_player.inCombat = m_memory->read<bool>(
+            m_offsetManager->calculateAddress(m_playerBaseAddress, "player_in_combat")
+        );
+        m_player.isDead = m_memory->read<bool>(
+            m_offsetManager->calculateAddress(m_playerBaseAddress, "player_is_dead")
+        );
+        m_player.movementSpeed = m_memory->read<float>(
+            m_offsetManager->calculateAddress(m_playerBaseAddress, "player_movement_speed")
+        );
+        m_player.characterClass = m_memory->read<int>(
+            m_offsetManager->calculateAddress(m_playerBaseAddress, "player_class")
+        );
         
         return true;
     }
